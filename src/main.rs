@@ -1,5 +1,6 @@
 use std::io::{self, BufRead};
 use std::env;
+use substring::Substring;
 
 fn parse_input_string(input_string: &str, quote_char: char) -> Vec<String> {
     let mut result = Vec::new();
@@ -11,19 +12,19 @@ fn parse_input_string(input_string: &str, quote_char: char) -> Vec<String> {
         if c == quote_char {
             in_quotes = !in_quotes;
             if !in_quotes {
-                result.push(input_string[start..end+1].to_string());
+                result.push(input_string.substring(start, end + 1).to_string());
                 start = end + 2;
             }
         } else if c == ' ' && !in_quotes {
             if end > start {
-                result.push(input_string[start..end].to_string());
+                result.push(input_string.substring(start, end).to_string());
             }
             start = end + 1;
         }
         end += 1;
     }
     if end > start {
-        result.push(input_string[start..end].to_string());
+        result.push(input_string.substring(start, end).to_string());
     }
     result
 }
