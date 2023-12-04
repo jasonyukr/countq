@@ -1,4 +1,4 @@
-use std::io::{self, BufRead};
+use std::io::{self, BufRead, BufWriter, Write};
 use std::env;
 use substring::Substring;
 
@@ -47,6 +47,9 @@ fn main() {
         }
     }
 
+    let stdout = io::stdout();
+    let mut out = BufWriter::new(stdout);
+
     let stdin = io::stdin();
     for ln in stdin.lock().lines() {
         let line;
@@ -56,6 +59,7 @@ fn main() {
         }
 
         let v = parse_input_string(&line, quote_char);
-        println!("{}", v.len());
+        writeln!(out, "{}", v.len()).unwrap();
     }
+    out.flush().unwrap();
 }
